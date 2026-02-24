@@ -17,6 +17,13 @@ void main() {
   setUp(() {
     mockRepository = MockProfileRepository();
     bloc = ProfileBloc(mockRepository);
+    registerFallbackValue(
+      ProfileModel(
+        name: 'dummy',
+        age: 0,
+        gender: 'male',
+      ),
+    );
   });
 
   blocTest<ProfileBloc, ProfileState>(
@@ -32,14 +39,16 @@ void main() {
 
   blocTest<ProfileBloc, ProfileState>(
     'emits [Loading, Success] when valid profile submitted',
-    build: () => bloc,
+    build: (() {
+      when(() => mockRepository.createProfile(profileModel: any(named: 'profileModel'))).thenAnswer((_) async {});
+      return bloc;
+    }),
     act: (bloc) => bloc.add(
       SubmitProfile("Ramesh", 58, "male"),
     ),
     expect: () => [
       isA<ProfileLoading>(),
       isA<ProfileSuccess>(),
-      // isA<ProfileValidationError>(),
     ],
   );
 }
