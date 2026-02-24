@@ -43,12 +43,12 @@ class LessonCompletionLoading extends LessonDetailState {
 }
 
 class LessonCompleted extends LessonDetailState {
-  final LessonModel lesson;
 
-  LessonCompleted(this.lesson);
+
+  LessonCompleted();
 
   @override
-  List<Object?> get props => [lesson];
+  List<Object?> get props => [];
 }
 
 class LessonDetailError extends LessonDetailState {
