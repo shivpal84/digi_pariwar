@@ -19,10 +19,6 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
   @override
   void initState() {
     super.initState();
-    // context
-    //     .read<LessonDetailBloc>()
-    //     .add(LoadLessonDetail(widget.lesson));
-
     context.read<LessonDetailBloc>().add(LoadLessonSteps(widget.lesson.id));
   }
 
@@ -49,88 +45,9 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
             }
           },
           builder: (context, state) {
-            if (state is LessonDetailLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-
+        
             if (state is LessonStepsLoading) {
               return const Center(child: CircularProgressIndicator());
-            }
-
-            if (state is LessonDetailLoaded ||
-                state is LessonCompletionLoading ||
-                state is LessonCompleted) {
-              final lesson = (state is LessonDetailLoaded)
-                  ? state.lesson
-                  : (state is LessonCompletionLoading)
-                      ? state.lesson
-                      : (state as LessonCompleted).lesson;
-
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  /// Title
-                  Text(
-                    lesson.title,
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-
-                  const SizedBox(height: 16),
-
-                  /// Description (Step content)
-                  Text(
-                    lesson.description,
-                    style: const TextStyle(fontSize: 18),
-                  ),
-
-                  const SizedBox(height: 30),
-
-                  /// Status
-                  // Text(
-                  //   "Status: ${lesson..replaceAll("_", " ")}",
-                  //   style: const TextStyle(
-                  //     fontSize: 18,
-                  //     fontWeight: FontWeight.w500,
-                  //   ),
-                  // ),
-
-                  const Spacer(),
-
-                  /// Mark Completed Button
-                  // if (lesson.status != "completed")
-                  //   SizedBox(
-                  //     width: double.infinity,
-                  //     height: 56,
-                  //     child: ElevatedButton(
-                  //       onPressed: state
-                  //       is LessonCompletionLoading
-                  //           ? null
-                  //           : () {
-                  //         context
-                  //             .read<LessonDetailBloc>()
-                  //             .add(
-                  //           MarkLessonCompleted(
-                  //               lesson.id),
-                  //         );
-                  //       },
-                  //       child: state
-                  //       is LessonCompletionLoading
-                  //           ? const CircularProgressIndicator(
-                  //         color: Colors.white,
-                  //       )
-                  //           : const Text(
-                  //         "Mark as Completed",
-                  //         style: TextStyle(fontSize: 18),
-                  //       ),
-                  //     ),
-                  //   ),
-                ],
-              );
             }
 
             if (state is LessonStepsLoaded) {
@@ -216,14 +133,6 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
               );
             }
 
-            if (state is LessonDetailError) {
-              return Center(
-                child: Text(
-                  state.message,
-                  style: const TextStyle(fontSize: 18),
-                ),
-              );
-            }
 
             return const SizedBox();
           },
