@@ -10,6 +10,8 @@ Lesson Detail with Step Completion
 
 ### Folder Structure
 The project follows Clean Architecture (Feature-First Structure) to ensure scalability and maintainability.
+
+
 lib/
 ├── network/
 │    └── api_client.dart
