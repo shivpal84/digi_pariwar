@@ -19,6 +19,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
   @override
   void initState() {
     super.initState();
+
     context.read<LessonDetailBloc>().add(LoadLessonSteps(widget.lesson.id));
   }
 
@@ -36,6 +37,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                   content: Text("Lesson completed successfully"),
                 ),
               );
+              Navigator.of(context).pop();
             }
 
             if (state is LessonDetailError) {
@@ -45,8 +47,8 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
             }
           },
           builder: (context, state) {
-        
-            if (state is LessonStepsLoading) {
+
+            if (state is LessonStepsLoading || state is LessonCompletionLoading) {
               return const Center(child: CircularProgressIndicator());
             }
 
@@ -68,11 +70,10 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                     flex: 1,
                     child: ListView.separated(
                       padding: const EdgeInsets.all(20),
-                      itemCount: state.steps.length,
+                      itemCount: 1,
                       separatorBuilder: (_, __) => const SizedBox(height: 16),
                       itemBuilder: (context, index) {
                         final step = state.steps[index];
-
                         return Container(
                           padding: const EdgeInsets.all(20),
                           decoration: BoxDecoration(
@@ -132,7 +133,6 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                 ],
               );
             }
-
 
             return const SizedBox();
           },
